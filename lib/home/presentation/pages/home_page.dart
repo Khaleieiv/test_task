@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_ripple_animation/simple_ripple_animation.dart';
+import 'package:test_task/common/utils/color_generation.dart';
 import 'package:test_task/home/presentation/state/color_notifier.dart';
 
 /// Home page of the application.
@@ -13,6 +16,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String label = '';
+  final String chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz';
+
   @override
   Widget build(BuildContext context) {
     final colorNotifier = context.watch<ColorNotifier>();
@@ -32,10 +38,13 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: Container(
                   color: colorNotifier.color,
-                  child: const Center(
-                    child: Text(
-                      'Hey there',
-                      style: TextStyle(),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        label.length,
+                        (index) => _LetterLabel(letter: label[index]),
+                      ),
                     ),
                   ),
                 ),
@@ -50,5 +59,32 @@ class _HomePageState extends State<HomePage> {
   void _onPressedScreen() {
     final colorNotifier = context.read<ColorNotifier>();
     colorNotifier.currentColor();
+    setState(() {
+      final random = Random();
+      final letterRandom = List.generate(
+        10,
+        (index) => chars[random.nextInt(chars.length)],
+      ).join();
+      label = letterRandom;
+    });
+  }
+}
+
+class _LetterLabel extends StatelessWidget {
+  final String letter;
+
+  const _LetterLabel({Key? key, required this.letter}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    const fontSize = 30.0;
+
+    return Text(
+      letter,
+      style: TextStyle(
+        fontSize: fontSize,
+        color: ColorGeneration.generateRandomColor(),
+      ),
+    );
   }
 }

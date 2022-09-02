@@ -21,6 +21,8 @@ class ColorGeneration {
   }
 
   static int _randomRGBValue() {
-    return _random.nextInt(maxValue);
+    final randomValue = _random.nextInt(maxValue);
+
+    return randomValue;
   }
 }

@@ -10,6 +10,7 @@ class ColorNotifier extends ChangeNotifier {
   /// Gets color.
   Color get color => _color;
 
+  /// Gets color text.
   Color get colorText => _colorText;
 
   /// Method that writes color.
